@@ -1,7 +1,6 @@
 const express =require ('express');
 const router = express.Router();
-
-const Model =require('../models/UserModel');
+const Model = require('../models/userModel');
 const jwt=require('jsonwebtoken');
 require('dotenv').config();
 
@@ -60,7 +59,7 @@ router.delete('/delete/:id',(req,res)=>{
     });
 });
 router.post('/authenticate',(req,res)=>{
-    Model.findOne(req,body)
+    Model.findOne(req.body)
     .then((result) => {
         if(result){
             //login success-generate token
@@ -68,16 +67,16 @@ router.post('/authenticate',(req,res)=>{
             const payload={_id,name,email};
 
 
-            JWT.sign(
+            jwt.sign(
                 payload,
                 process.env.JWT_SECRET,
-                {expiresIn:'2nd'},
+                {expiresIn:'6h'},
                 (err,token) => {
                     if(err){
                         console.log(err);
                         res.status(500).json({err});
                     }else{
-                        res.status(200).json({tok});
+                        res.status(200).json({token});
                     }
 
                 }
