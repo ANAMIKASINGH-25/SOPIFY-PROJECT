@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Shopify Snapshots",
+    "version": "1.0",
+    "description": "Captures snapshots on specific events",
+    "permissions": [
+      "activeTab",
+      "storage",
+      "scripting",
+      "tabs",
+      "sidePanel"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "side_panel": {
+      "default_path": "sidepanel.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {}
+  }
