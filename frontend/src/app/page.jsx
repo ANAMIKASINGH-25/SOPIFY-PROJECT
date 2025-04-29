@@ -22,7 +22,7 @@ const Home = () => {
         </div>
         <div className="w-full md:w-1/2 p-4">
           <video controls className="w-full rounded-lg shadow-md">
-            <source src="video.mp4" type="video/mp4" />
+            <source src="/video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
