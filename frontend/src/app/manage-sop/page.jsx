@@ -1,63 +1,100 @@
-import React from 'react';
+'use client';
+import React from "react";
+import { Pencil, Trash2, Plus } from "lucide-react";
 
-const ManageSOP = () => {
+const dummySOPs = [
+  { id: 1, title: "Onboarding Process", description: "Steps to onboard new employees." },
+  { id: 2, title: "Bug Reporting", description: "Standard method to report software bugs." },
+  { id: 3, title: "Content Publishing", description: "Workflow for publishing new content." },
+];
+
+const ManageSOPPage = () => {
+  const handleEdit = (id) => {
+    console.log("Edit SOP with ID:", id);
+  };
+
+  const handleDelete = (id) => {
+    console.log("Delete SOP with ID:", id);
+  };
+
+  const handleAdd = () => {
+    console.log("Add new SOP");
+  };
+
   return (
-    <div className="font-[Inter] bg-gray-100 text-gray-800">
-      <header className="bg-blue-900 text-white px-8 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold">SOPify</div>
-        <nav className="flex space-x-5 font-medium">
-          <a href="#" className="hover:underline">Dashboard</a>
-          <a href="#" className="hover:underline">Create SOP</a>
-          <a href="#" className="underline">Manage SOPs</a>
-        </nav>
-      </header>
+    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white overflow-x-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://www.sweetprocess.com/wp-content/uploads/2023/08/how-to-write-a-standard-operating-procedure-3-1024x511.jpg"
+          alt="SOPify background"
+          className="w-full h-full object-cover opacity-50"
+        />
+      </div>
 
-      <main className="max-w-[900px] mx-auto mt-8 px-4">
-        <h1 className="text-2xl font-bold mb-2">📋 Manage Your SOPs</h1>
-        <p className="text-gray-500 mb-8 text-base">
-          View, edit, download, or delete your existing SOPs created with the SOPify browser extension.
-        </p>
+      <div className="relative z-10 p-4 md:p-8 max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <h1 className="text-4xl font-extrabold text-blue-900 mb-4 md:mb-0 animate-fadeIn">
+            🚀 Manage Your SOPs
+          </h1>
+          <button
+            onClick={handleAdd}
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105"
+          >
+            <Plus size={20} />
+            Add SOP
+          </button>
+        </div>
 
-        <section className="flex flex-col gap-6">
-          {/* SOP Card 1 */}
-          <div className="bg-white rounded-xl p-6 shadow-md flex justify-between items-center flex-wrap">
-            <div>
-              <h2 className="text-lg font-semibold mb-1">📦 Python Library Installation</h2>
-              <p className="text-sm text-gray-700">
-                <strong>Created:</strong> 2025-04-15 &nbsp;•&nbsp; 
-                <strong>Status:</strong> Completed
-              </p>
+        {/* SOP Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {dummySOPs.map((sop) => (
+            <div
+              key={sop.id}
+              className="bg-white shadow-xl rounded-3xl p-6 flex flex-col justify-between h-full hover:shadow-2xl transition-all relative overflow-hidden group"
+            >
+              {/* Illustration */}
+              <div className="absolute top-0 right-0 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
+                <img
+                  src={`/images/sopify-${sop.id}.svg`}
+                  alt={`${sop.title} Illustration`}
+                  className="w-32 h-32 object-contain"
+                />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-3">{sop.title}</h2>
+                <p className="text-sm text-gray-600">{sop.description}</p>
+              </div>
+              <div className="flex justify-end mt-6 gap-4">
+                <button
+                  onClick={() => handleEdit(sop.id)}
+                  className="text-blue-600 hover:text-blue-800 transition-transform hover:scale-110"
+                  title="Edit"
+                >
+                  <Pencil size={24} />
+                </button>
+                <button
+                  onClick={() => handleDelete(sop.id)}
+                  className="text-red-600 hover:text-red-800 transition-transform hover:scale-110"
+                  title="Delete"
+                >
+                  <Trash2 size={24} />
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2 mt-4 sm:mt-0">
-              <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md text-sm font-medium hover:opacity-90">✏️ Edit</button>
-              <button className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm font-medium hover:opacity-90">🗑️ Delete</button>
-              <button className="bg-green-100 text-green-700 px-4 py-2 rounded-md text-sm font-medium hover:opacity-90">⬇️ Download</button>
-            </div>
-          </div>
+          ))}
+        </div>
 
-          {/* SOP Card 2 */}
-          <div className="bg-white rounded-xl p-6 shadow-md flex justify-between items-center flex-wrap">
-            <div>
-              <h2 className="text-lg font-semibold mb-1">🌐 GitHub Repo Setup</h2>
-              <p className="text-sm text-gray-700">
-                <strong>Created:</strong> 2025-04-20 &nbsp;•&nbsp; 
-                <strong>Status:</strong> Draft
-              </p>
-            </div>
-            <div className="flex gap-2 mt-4 sm:mt-0">
-              <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md text-sm font-medium hover:opacity-90">✏️ Edit</button>
-              <button className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm font-medium hover:opacity-90">🗑️ Delete</button>
-              <button className="bg-green-100 text-green-700 px-4 py-2 rounded-md text-sm font-medium hover:opacity-90">⬇️ Download</button>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="text-center py-4 text-sm text-gray-500 border-t mt-12">
-        © 2025 SOPify Extension. All rights reserved.
-      </footer>
+        {/* Footer */}
+        <div className="mt-16 text-center animate-fadeIn">
+          <p className="text-gray-600 text-sm italic">
+            SOPify – Simplifying your Standard Operating Procedures, one step at a time.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ManageSOP;
+export default ManageSOPPage;
