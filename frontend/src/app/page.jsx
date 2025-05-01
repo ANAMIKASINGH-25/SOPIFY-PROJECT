@@ -1,33 +1,15 @@
-import Link from 'next/link';
-import Mybutton from '../component/Mybutton';
-import React from 'react'
+import React from 'react';
 
-const Home = () => {
+const AboutUs = () => {
   return (
     <div className="font-sans text-gray-800 bg-gray-100">
       <header className="bg-slate-800 text-white px-8 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">SOPify</h1>
         <nav className="space-x-6">
-          <li>
-            <Link href="/login" className="hover:underline">
-            Login
-            </Link>
-            </li>
-            <li>
-            <Link href="/signup" className="hover:underline">
-              Signup
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="hover:underline">
-              Contact
-            </Link>
-          </li>
-          <li>
-            <Link href="/managesop" className="hover:underline">
-              Manage SOP
-            </Link>
-          </li>
+          <a href="#" className="hover:underline">Home</a>
+          <a href="#" className="hover:underline">Log in</a>
+          <a href="#" className="hover:underline">About Us</a>
+          <a href="#" className="hover:underline">Contact</a>
         </nav>
       </header>
 
@@ -38,7 +20,7 @@ const Home = () => {
         </div>
         <div className="w-full md:w-1/2 p-4">
           <video controls className="w-full rounded-lg shadow-md">
-            <source src="/video.mp4" type="video/mp4" />
+            <source src="video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -86,7 +68,7 @@ const Home = () => {
         <p>&copy; {new Date().getFullYear()} SOPify. All rights reserved.</p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home;
+export default AboutUs;
