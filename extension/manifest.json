@@ -1,11 +1,29 @@
 {
-    "name": "Page Redder",
-    "action": {},
     "manifest_version": 3,
-    "version": "0.1",
-    "description": "Turns the page red when you click the icon",
-    "permissions": ["activeTab", "scripting"],
+    "name": "Shopify Snapshots",
+    "version": "1.0",
+    "description": "SOP management Chrome extension",
+    "permissions": [
+      "activeTab",
+      "storage",
+      "scripting",
+      "tabs",
+      "sidePanel"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
     "background": {
-      "service_worker": "service-worker.js"
-    }
+      "service_worker": "background.js"
+    },
+    "side_panel": {
+      "default_path": "sidepanel.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {}
   }

@@ -8,10 +8,10 @@ const Home = () => {
       <header className="bg-slate-800 text-white px-8 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">SOPify</h1>
         <nav className="space-x-6">
-          <a href="#" className="hover:underline">Login</a>
-          <a href="#" className="hover:underline">signup</a>
-          <a href="#" className="hover:underline">Contact</a>
-          <a href="#" className="hover:underline">aboutus</a>
+          <li><a href="login.jsx" className="hover:underline">Login</a></li>
+          <li><a href="signup.jsx" className="hover:underline">signup</a></li>
+          <li><a href="contact.jsx" className="hover:underline">Contact</a></li>
+          <li><a href="#" className="hover:underline">aboutus</a></li>
         </nav>
       </header>
 
