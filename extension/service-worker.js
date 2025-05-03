@@ -1,4 +1,5 @@
 let isRecording = false;
+let connectedTabs = new Set();
 
 // Handle the extension installation
 chrome.runtime.onInstalled.addListener(() => {
@@ -14,6 +15,11 @@ chrome.runtime.onInstalled.addListener(() => {
       console.error('Error initializing side panel:', error);
     });
   }
+});
+
+// Handle tabs being removed
+chrome.tabs.onRemoved.addListener((tabId) => {
+  connectedTabs.delete(tabId);
 });
 
 // Handle toolbar icon clicks
@@ -33,6 +39,23 @@ chrome.action.onClicked.addListener((tab) => {
 
 // Handle messages from content script and popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // Handle content script initialization
+  if (request.action === "contentScriptReady") {
+    if (sender.tab && sender.tab.id) {
+      connectedTabs.add(sender.tab.id);
+      // Send current recording state to newly connected content script
+      chrome.tabs.sendMessage(sender.tab.id, {
+        action: "recordingStateChanged",
+        enabled: isRecording
+      }).catch(() => {
+        // Tab might have been closed or refreshed, ignore errors
+        connectedTabs.delete(sender.tab.id);
+      });
+    }
+    sendResponse({ success: true });
+    return true;
+  }
+
   if (request.action === "captureScreenshot") {
     chrome.tabs.captureVisibleTab(null, { format: "png" }, (dataUrl) => {
       if (chrome.runtime.lastError) {
@@ -60,19 +83,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     isRecording = request.enabled;
     chrome.storage.local.set({ isRecording: isRecording });
     
-    // Notify all tabs about the recording state change
-    chrome.tabs.query({}, (tabs) => {
-      tabs.forEach(tab => {
-        try {
-          chrome.tabs.sendMessage(tab.id, {
-            action: "recordingStateChanged",
-            enabled: isRecording
-          });
-        } catch (e) {
-          console.error('Error sending message to tab:', e);
-        }
+    // Notify all connected tabs about the recording state change
+    Array.from(connectedTabs).forEach(tabId => {
+      chrome.tabs.sendMessage(tabId, {
+        action: "recordingStateChanged",
+        enabled: isRecording
+      }).catch(() => {
+        // Tab might have been closed or refreshed, remove it from connected tabs
+        connectedTabs.delete(tabId);
       });
     });
+    
     sendResponse({ success: true });
     return true;
   }

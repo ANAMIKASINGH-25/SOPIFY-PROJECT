@@ -12,7 +12,8 @@
   ],
   "host_permissions": [
     "<all_urls>",
-    "https://docs.google.com/*"
+    "https://docs.google.com/*",
+    "https://*.google.com/*"
   ],
   "background": {
     "service_worker": "service-worker.js"
@@ -21,11 +22,14 @@
     {
       "matches": [
         "<all_urls>",
-        "https://docs.google.com/*"
+        "https://docs.google.com/*",
+        "https://*.google.com/*"
       ],
       "js": ["content.js"],
       "run_at": "document_start",
-      "all_frames": true
+      "all_frames": true,
+      "match_about_blank": true,
+      "world": "MAIN"
     }
   ],
   "side_panel": {
@@ -38,5 +42,9 @@
       "48": "public/image.png",
       "128": "public/image.png"
     }
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": ["sidepanel.html", "sidepanel.js"],
+    "matches": ["<all_urls>"]
+  }]
 }
