@@ -1,29 +1,42 @@
 {
-    "manifest_version": 3,
-    "name": "Shopify Snapshots",
-    "version": "1.0",
-    "description": "SOP management Chrome extension",
-    "permissions": [
-      "activeTab",
-      "storage",
-      "scripting",
-      "tabs",
-      "sidePanel"
-    ],
-    "host_permissions": [
-      "<all_urls>"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "side_panel": {
-      "default_path": "sidepanel.html"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ],
-    "action": {}
+  "manifest_version": 3,
+  "name": "Document Activity Recorder",
+  "version": "1.0",
+  "description": "Records user interactions with documents including clicks, selections, and edits",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://docs.google.com/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>",
+        "https://docs.google.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "public/image.png",
+      "48": "public/image.png",
+      "128": "public/image.png"
+    }
   }
+}

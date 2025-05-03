@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Activity Recorder</title>
+    <style>
+        body {
+            width: 100%;
+            margin: 0;
+            padding: 16px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .controls {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+            z-index: 100;
+            display: flex;
+            gap: 8px;
+        }
+        .screenshot-container {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .screenshot-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .screenshot-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .screenshot-timestamp {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .screenshot-image {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .screenshot-image:hover {
+            transform: scale(1.02);
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.2s, transform 0.1s;
+            flex: 1;
+        }
+        button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .modal-close:hover {
+            transform: scale(1.1);
+        }
+        .no-screenshots {
+            text-align: center;
+            color: #666;
+            padding: 32px;
+            background: white;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button id="startBtn">Start Recording</button>
+        <button id="stopBtn">Stop Recording</button>
+        <button id="clearBtn">Clear All</button>
+    </div>
+    <div id="screenshots"></div>
+    <div id="modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+    <script src="sidepanel.js"></script>
+</body>
+</html>
