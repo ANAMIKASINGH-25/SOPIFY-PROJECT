@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Document Activity Recorder",
+  "name": "Sopify - Document Interaction Tracker",
   "version": "1.0",
   "description": "Records user interactions with documents including clicks, selections, and edits",
   "permissions": [
