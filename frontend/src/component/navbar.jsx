@@ -77,6 +77,7 @@ const Navbar = () => {
                 >
                   Login
                 </Link>
+                
                 {/* Dropdown */}
                 <div className="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] md:[--adaptive:adaptive] [--is-collapse:true] md:[--is-collapse:false] ">
                   <button

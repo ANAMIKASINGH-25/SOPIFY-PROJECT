@@ -1,7 +1,23 @@
 import React from 'react';
+import React from 'react';
 
 const AboutUs = () => {
+const AboutUs = () => {
   return (
+    <div className="font-sans text-gray-800 bg-gray-50">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white px-8 py-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
+        <h1 className="text-3xl font-bold animate-fadeIn">SOPify</h1>
+        <nav className="space-x-6 text-lg">
+          {[ 'Log in', 'Sign up','Manage SOPs','About Us', 'Contact'].map((item) => (
+            <a
+              key={item}
+              href="#"
+              className="hover:underline transition duration-300 hover:text-gray-300"
+            >
+              {item}
+            </a>
+          ))}
     <div className="font-sans text-gray-800 bg-gray-100">
       <header className="bg-slate-800 text-white px-8 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">SOPify</h1>
@@ -13,6 +29,24 @@ const AboutUs = () => {
         </nav>
       </header>
 
+      {/* Hero Section */}
+      <section
+        className="relative h-[500px] bg-cover bg-center flex items-center justify-center text-white"
+        style={{
+          backgroundImage: "url('backgroundhomepage.jpg')", // Replace with an attractive SOP-related background
+        }}
+      >
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="relative z-10 text-center px-4 animate-fadeInUp">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Automate Your SOP Creation
+          </h2>
+          <p className="text-xl mb-6 max-w-2xl mx-auto">
+            SOPify makes it seamless to document, manage, and export your SOPs with precision and ease.
+          </p>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            Get Started
+          </button>
       <section className="flex flex-wrap p-8 bg-blue-50">
         <div className="w-full md:w-1/2 p-4">
           <h2 className="text-3xl font-semibold mb-4">Automate Your SOP Creation</h2>
@@ -26,49 +60,87 @@ const AboutUs = () => {
         </div>
       </section>
 
-      <section className="bg-white text-center p-8">
-        <h2 className="text-3xl font-semibold mb-6">Why SOPify?</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <img
-              src="https://assets-global.website-files.com/616225f979e8e45b97acbea0/63db04bd0ccab19579c15f48_ScreenShot2023-02-01at4.19.11PM_HsoBhcfCR.png"
-              alt="Auto Screenshot"
-              className="w-full rounded-md mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">Auto Screenshot & Highlights</h3>
-            <p>Captures your actions and highlights them for clear step-by-step SOP generation.</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <img src="templatesop.jpg" alt="Templates" className="w-full rounded-md mb-4" />
-            <p>Select from a range of professional SOP templates tailored to various purposes.</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <img src="exportoption.jpg" alt="Export Options" className="w-full rounded-md mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Export in Multiple Formats</h3>
-            <p>Export SOPs as PDF, DOCX, PNG, or JPG – no feature limits, 100% free.</p>
-          </div>
+      {/* Why SOPify */}
+      <section className="py-20 px-10 bg-white">
+        <h2 className="text-3xl font-semibold text-center mb-10 animate-fadeIn">
+          Why SOPify?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {[
+            {
+              title: 'Auto Screenshot & Highlights',
+              desc: 'Capture actions and auto-generate steps with clarity.',
+              img: 'autoscreenshot.jpg'
+            },
+            {
+              title: 'Professional Templates',
+              desc: 'Pick from structured SOP templates crafted for clarity.',
+              img: 'Templates.jpg'
+            },
+            {
+              title: 'Export in Multiple Formats',
+              desc: 'Download SOPs as PDF, DOCX, PNG or JPG – free forever.',
+              img: 'Export.jpg'
+            }
+          ].map((feature, index) => (
+            <div
+              key={index}
+              className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition-shadow duration-300 hover:scale-[1.02]"
+            >
+              <img
+                src={feature.img}
+                alt={feature.title}
+                className="w-full h-48 object-cover rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-600">{feature.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="bg-blue-50 text-center p-8">
-        <h2 className="text-3xl font-semibold mb-6">Meet the Team</h2>
-        <div className="flex flex-wrap justify-center gap-6">
-          <div className="bg-white p-4 rounded-lg shadow-md w-64">
-            <h3 className="text-xl font-semibold mb-2">Anamika Singh</h3>
-            <p>Focus: Registration, Procedure Generation, Content Editing</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md w-64">
-            <h3 className="text-xl font-semibold mb-2">Yadav Ruchi Tulsiram</h3>
-            <p>Focus: Dashboard, Feedback, Exporting Tools</p>
-          </div>
+      {/* Meet the Team */}
+      <section className="py-16 px-6 bg-blue-50">
+        <h2 className="text-3xl font-semibold text-center mb-10 animate-fadeIn">Meet the Team</h2>
+        <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
+          {[
+            {
+              name: 'Anamika Singh',
+              role: 'Registration, Procedure Generation, Content Editing',
+              img: 'girl.jpg' // Add illustrated girl image here
+            },
+            {
+              name: 'Yadav Ruchi Tulsiram',
+              role: 'Dashboard, Feedback, Exporting Tools',
+              img: 'girl.jpg' // Add illustrated girl image here
+            }
+          ].map((member, index) => (
+            <div
+              key={index}
+              className="bg-white p-6 rounded-xl shadow hover:shadow-lg w-72 text-center transition duration-300 hover:scale-105"
+            >
+              <img
+                src={member.img}
+                alt={member.name}
+                className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-blue-200"
+              />
+              <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
+              <p className="text-gray-600">{member.role}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <footer className="bg-slate-800 text-white text-center p-4">
+      {/* Footer */}
+      <footer className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white text-center py-4">
         <p>&copy; {new Date().getFullYear()} SOPify. All rights reserved.</p>
       </footer>
     </div>
   );
 };
+  );
+};
+
+export default AboutUs;
 
 export default AboutUs;
