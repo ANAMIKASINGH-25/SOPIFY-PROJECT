@@ -1,33 +1,10 @@
 import React from 'react';
-import React from 'react';
 
-const AboutUs = () => {
-const AboutUs = () => {
+const Home = () => {
   return (
     <div className="font-sans text-gray-800 bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white px-8 py-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
-        <h1 className="text-3xl font-bold animate-fadeIn">SOPify</h1>
-        <nav className="space-x-6 text-lg">
-          {[ 'Log in', 'Sign up','Manage SOPs','About Us', 'Contact'].map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="hover:underline transition duration-300 hover:text-gray-300"
-            >
-              {item}
-            </a>
-          ))}
-    <div className="font-sans text-gray-800 bg-gray-100">
-      <header className="bg-slate-800 text-white px-8 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">SOPify</h1>
-        <nav className="space-x-6">
-          <a href="#" className="hover:underline">Home</a>
-          <a href="#" className="hover:underline">Log in</a>
-          <a href="#" className="hover:underline">About Us</a>
-          <a href="#" className="hover:underline">Contact</a>
-        </nav>
-      </header>
+      
 
       {/* Hero Section */}
       <section
@@ -47,16 +24,6 @@ const AboutUs = () => {
           <button className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             Get Started
           </button>
-      <section className="flex flex-wrap p-8 bg-blue-50">
-        <div className="w-full md:w-1/2 p-4">
-          <h2 className="text-3xl font-semibold mb-4">Automate Your SOP Creation</h2>
-          <p>SOPify is your one-stop solution to create, manage, and download structured SOPs effortlessly.</p>
-        </div>
-        <div className="w-full md:w-1/2 p-4">
-          <video controls className="w-full rounded-lg shadow-md">
-            <source src="video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
         </div>
       </section>
 
@@ -138,9 +105,5 @@ const AboutUs = () => {
     </div>
   );
 };
-  );
-};
 
-export default AboutUs;
-
-export default AboutUs;
+export default Home;

@@ -1,7 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const UserRouter = require('./routers/UserRouter');
-const SopRouter =require('./routers/sop.router')
+const UserRouter = require('./routers/userRouter');
+const SopRouter =require('./routers/sopRouter');
+const ReviewRouter =require('./routers/reviewRouter');
+const FeedbackRouter =require('./routers/feedbackRouter');
 const cors=require('cors');
 
 const app = express();
@@ -12,7 +14,9 @@ const port = process.env.PORT || 5000;
 app.use(cors({origin:"*"}))
 app.use(express.json());
 app.use('/user', UserRouter);
-app.use('/sops',SopRouter)
+app.use('/sops',SopRouter);
+app.use('/review',ReviewRouter);
+app.use('/feedback',FeedbackRouter);
 
 //endpoint or route
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Model = require('../models/sopModel'); // Correct model import
+const Model = require('../models/feedbackModel');
 require('dotenv').config();
 
 // Add a new SOP
