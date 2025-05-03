@@ -11,15 +11,6 @@ export default function ContactPage() {
 
   return (
     <div className="font-sans text-gray-800 bg-gray-100 min-h-screen flex flex-col">
-      <header className="bg-slate-800 text-white px-8 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">SOPify</h1>
-        <nav className="space-x-6">
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Log in</a>
-          <a href="#">Sign up</a>
-        </nav>
-      </header>
 
       <main className="flex-grow p-8 bg-blue-50">
         <h2 className="text-3xl font-semibold text-center mb-6">Contact Us</h2>
