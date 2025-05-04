@@ -7,123 +7,93 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateStatus(message, isError = false) {
     statusDiv.textContent = message;
     statusDiv.style.color = isError ? '#dc3545' : '#666';
-    if (!isError) {
-      setTimeout(() => {
-        statusDiv.textContent = '';
-        statusDiv.style.color = '#666';
-      }, 2000);
-    }
+    console.log(`Status update: ${message}`);
   }
 
-  // Retry mechanism for extension commands
-  async function sendMessageWithRetry(message, maxAttempts = 3) {
-    let attempt = 0;
-    while (attempt < maxAttempts) {
-      try {
-        const response = await new Promise((resolve, reject) => {
-          chrome.runtime.sendMessage(message, (response) => {
-            if (chrome.runtime.lastError) {
-              reject(chrome.runtime.lastError);
-            } else {
-              resolve(response);
-            }
-          });
-        });
-        return response;
-      } catch (error) {
-        attempt++;
-        if (attempt === maxAttempts) {
-          throw error;
-        }
-        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-      }
-    }
-  }
-
-  // Start recording with retry
+  // Start recording
   startBtn.addEventListener('click', async () => {
     try {
-      const response = await sendMessageWithRetry({ 
+      // First request activeTab permission explicitly
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!tab) {
+        throw new Error('No active tab found');
+      }
+
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: () => {
+          console.log('Injected recording script');
+          return true;
+        }
+      });
+
+      chrome.runtime.sendMessage({ 
         action: 'toggleRecording', 
         enabled: true 
+      }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error('Toggle error:', chrome.runtime.lastError);
+          updateStatus('Error starting recording', true);
+          return;
+        }
+        
+        if (response?.success) {
+          startBtn.disabled = true;
+          stopBtn.disabled = false;
+          updateStatus('Recording started');
+        } else {
+          updateStatus('Failed to start recording', true);
+        }
       });
       
-      if (response && response.success) {
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
-        updateStatus('Recording started');
-      } else {
-        throw new Error('Failed to start recording');
-      }
     } catch (error) {
-      updateStatus('Error starting recording. Please try again.', true);
-      console.error('Start recording error:', error);
-      return;
+      console.error('Start error:', error);
+      updateStatus('Error: ' + error.message, true);
     }
-    window.close();
   });
 
-  // Stop recording with retry
-  stopBtn.addEventListener('click', async () => {
-    try {
-      const response = await sendMessageWithRetry({ 
-        action: 'toggleRecording', 
-        enabled: false 
-      });
-      
-      if (response && response.success) {
+  // Stop recording
+  stopBtn.addEventListener('click', () => {
+    chrome.runtime.sendMessage({ 
+      action: 'toggleRecording', 
+      enabled: false 
+    }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('Toggle error:', chrome.runtime.lastError);
+        updateStatus('Error stopping recording', true);
+        return;
+      }
+
+      if (response?.success) {
         startBtn.disabled = false;
         stopBtn.disabled = true;
         updateStatus('Recording stopped');
       } else {
-        throw new Error('Failed to stop recording');
+        updateStatus('Failed to stop recording', true);
       }
-    } catch (error) {
-      updateStatus('Error stopping recording. Please try again.', true);
-      console.error('Stop recording error:', error);
-      return;
-    }
-    window.close();
+    });
   });
 
   // Open side panel
   openSidePanelBtn.addEventListener('click', async () => {
     try {
       if (chrome.sidePanel) {
-        await chrome.sidePanel.open();
+        await chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT });
         updateStatus('Opening side panel...');
       } else {
         throw new Error('Side panel not supported');
       }
     } catch (error) {
-      updateStatus('Error opening side panel. Please try again.', true);
       console.error('Side panel error:', error);
-      return;
+      updateStatus('Error opening side panel', true);
     }
-    window.close();
   });
 
-  // Initialize state with retry
-  async function initializeState() {
-    try {
-      const result = await new Promise((resolve, reject) => {
-        chrome.storage.local.get(['isRecording'], (result) => {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(result);
-          }
-        });
-      });
-      
-      const isRecording = result.isRecording || false;
-      startBtn.disabled = isRecording;
-      stopBtn.disabled = !isRecording;
-    } catch (error) {
-      console.error('Error initializing state:', error);
-      updateStatus('Error loading state. Please reload.', true);
-    }
-  }
-
-  initializeState();
+  // Initialize state
+  chrome.storage.local.get(['isRecording'], (result) => {
+    const isRecording = result.isRecording || false;
+    startBtn.disabled = isRecording;
+    stopBtn.disabled = !isRecording;
+    console.log('Initial recording state:', isRecording);
+  });
 });

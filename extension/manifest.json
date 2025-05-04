@@ -8,28 +8,23 @@
     "storage",
     "tabs",
     "scripting",
-    "sidePanel"
+    "sidePanel",
+    "tabCapture",
+    "desktopCapture"
   ],
   "host_permissions": [
-    "<all_urls>",
-    "https://docs.google.com/*",
-    "https://*.google.com/*"
+    "<all_urls>"
   ],
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "service-worker.js",
+    "type": "module"
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>",
-        "https://docs.google.com/*",
-        "https://*.google.com/*"
-      ],
+      "matches": ["<all_urls>"],
       "js": ["content.js"],
       "run_at": "document_start",
-      "all_frames": true,
-      "match_about_blank": true,
-      "world": "MAIN"
+      "all_frames": false
     }
   ],
   "side_panel": {
@@ -43,8 +38,13 @@
       "128": "public/image.png"
     }
   },
+  "icons": {
+    "16": "public/image.png",
+    "48": "public/image.png",
+    "128": "public/image.png"
+  },
   "web_accessible_resources": [{
-    "resources": ["sidepanel.html", "sidepanel.js"],
+    "resources": ["sidepanel.html", "sidepanel.js", "public/*"],
     "matches": ["<all_urls>"]
   }]
 }
