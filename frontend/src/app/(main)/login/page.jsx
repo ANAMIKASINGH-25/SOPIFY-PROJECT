@@ -4,6 +4,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Router } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -14,9 +16,9 @@ const validationSchema = Yup.object({
         .required('Password is required')
 });
 const Login = () => {
-    // Define validation schema with Yup
 
-    // Initialize Formik
+    const router = useRouter();
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -25,8 +27,12 @@ const Login = () => {
         onSubmit: (values,{resetForm,setSubmitting}) => {
           axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`,values)
           .then((result) => {
-            console.log('Form submitted with values:', result.data);
+            // console.log('Form submitted with values:', result.data);
+
             toast.success('Login successfully');
+            localStorage.setItem('token', result.data.token);
+            
+            router.push('/');
             resetForm();
           }).catch((err) => {
             setSubmitting(false);

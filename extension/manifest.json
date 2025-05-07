@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Sopify - Document Interaction Tracker",
+  "name": "SOPify - Document Activity Recorder",
   "version": "1.0",
   "description": "Records user interactions with documents including clicks, selections, and edits",
   "permissions": [
@@ -9,15 +9,17 @@
     "tabs",
     "scripting",
     "sidePanel",
-    "tabCapture",
-    "desktopCapture"
+    "tabCapture"
   ],
   "host_permissions": [
+    "http://localhost:3000/*",
     "<all_urls>"
   ],
+  "externally_connectable": {
+    "matches": ["http://localhost:3000/*"]
+  },
   "background": {
-    "service_worker": "service-worker.js",
-    "type": "module"
+    "service_worker": "service-worker.js"
   },
   "content_scripts": [
     {
@@ -33,15 +35,15 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "public/image.png",
-      "48": "public/image.png",
-      "128": "public/image.png"
+      "16": "public/logo.jpg",
+      "48": "public/logo.jpg",
+      "128": "public/logo.jpg"
     }
   },
   "icons": {
-    "16": "public/image.png",
-    "48": "public/image.png",
-    "128": "public/image.png"
+    "16": "public/logo.jpg",
+    "48": "public/logo.jpg",
+    "128": "public/logo.jpg"
   },
   "web_accessible_resources": [{
     "resources": ["sidepanel.html", "sidepanel.js", "public/*"],
