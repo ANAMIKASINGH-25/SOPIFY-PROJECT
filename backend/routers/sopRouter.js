@@ -3,6 +3,7 @@ const router = express.Router();
 const Model = require('../models/sopModel'); 
 const upload = require('../middlewaves/multerConfig');
 const path = require('path');
+const jwt = require('jsonwebtoken'); // Add this import
 require('dotenv').config();
 
 // Add a new SOP with image upload
@@ -34,6 +35,60 @@ router.post('/add', upload.single('image'), (req, res) => {
             res.status(200).json({
                 success: true,
                 message: 'SOP created successfully',
+                data: result
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to create SOP',
+                error: err.message
+            });
+        });
+});
+
+// Add a new SOP from extension with base64 images
+router.post('/add-from-extension', (req, res) => {
+    console.log('Received SOP from extension');
+    console.log(req.body);
+    
+    // Validate request
+    if (!req.body.title || !req.body.description || !req.body.steps) {
+        return res.status(400).json({
+            success: false,
+            message: 'Missing required fields'
+        });
+    }
+    
+    // Extract user ID from token if authenticated
+    let userId = null;
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            userId = decoded._id;
+        } catch (error) {
+            console.error('Token verification failed:', error);
+        }
+    }
+    
+    // Create new SOP
+    const newSop = new Model({
+        title: req.body.title,
+        description: req.body.description,
+        steps: req.body.steps,
+        fromExtension: true,
+        url: req.body.url,
+        timestamp: req.body.timestamp || Date.now(),
+        createdBy: userId || req.body.createdBy
+    });
+
+    newSop.save()
+        .then((result) => {
+            res.status(200).json({
+                success: true,
+                message: 'SOP created successfully from extension',
                 data: result
             });
         })

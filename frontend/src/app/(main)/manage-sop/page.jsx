@@ -1,7 +1,8 @@
 'use client';
 import React, { useState, useEffect, useRef } from "react";
-import { Pencil, Trash2, Plus, X, Image, Upload, Camera, Filter, Clock, ExternalLink, Layers, Monitor } from "lucide-react";
+import { Pencil, Trash2, Plus, X, Image, Upload, Camera, Filter, Clock, ExternalLink, Layers, Monitor, Eye } from "lucide-react";
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 // Initial SOPs (will be replaced with data from API)
 const initialSOPs = [
@@ -11,6 +12,7 @@ const initialSOPs = [
 ];
 
 const ManageSOPPage = () => {
+  const router = useRouter();
   const [sops, setSOPs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [extensionDataLoading, setExtensionDataLoading] = useState(false);
@@ -157,6 +159,8 @@ const ManageSOPPage = () => {
       
       // Fetch SOPs from the API with user ID and source=extension
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sops/getbyuser/${userId}?source=extension`);
+      console.log(response.data.data);
+      
       setSOPs(response.data.data);
     } catch (err) {
       console.error('Error fetching SOPs:', err);
@@ -640,7 +644,7 @@ const ManageSOPPage = () => {
                     .filter(sop => sop.fromExtension)
                     .map((sop) => (
                       <div
-                        key={sop.id}
+                        key={sop.id || sop._id}
                         className="bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-3xl p-6 flex flex-col justify-between h-full hover:shadow-2xl transition-all relative overflow-hidden group border-2 border-blue-400"
                       >
                         {/* Extension Badge */}
@@ -650,7 +654,10 @@ const ManageSOPPage = () => {
                         </div>
                         
                         <div>
-                          <h2 className="text-2xl font-bold text-gray-800 mb-3">{sop.title}</h2>
+                          <h2 className="text-2xl font-bold text-gray-800 mb-3 cursor-pointer hover:text-blue-600 transition-colors" 
+                              onClick={() => router.push(`/sop/${sop._id || sop.id}`)}>
+                            {sop.title}
+                          </h2>
                           
                           {/* Display the actual screenshot image */}
                           {sop.imgData && (
@@ -715,7 +722,14 @@ const ManageSOPPage = () => {
                         <div className="flex justify-between items-center mt-6">
                           <div className="flex gap-2">
                             <button
-                              onClick={() => handleEdit(sop.id)}
+                              onClick={() => router.push(`/sop/${sop._id || sop.id}`)}
+                              className="bg-green-100 hover:bg-green-200 text-green-700 p-2 rounded-lg transition-colors flex items-center gap-1 text-sm"
+                              title="View SOP"
+                            >
+                              <Eye size={16} /> View
+                            </button>
+                            <button
+                              onClick={() => handleEdit(sop._id || sop.id)}
                               className="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-colors flex items-center gap-1 text-sm"
                               title="Edit"
                             >
@@ -723,7 +737,7 @@ const ManageSOPPage = () => {
                             </button>
                           </div>
                           <button
-                            onClick={() => handleDelete(sop.id)}
+                            onClick={() => handleDelete(sop._id || sop.id)}
                             className="text-red-600 hover:text-red-800 transition-transform hover:scale-110"
                             title="Delete"
                           >
@@ -753,7 +767,7 @@ const ManageSOPPage = () => {
                     .filter(sop => !sop.fromExtension)
                     .map((sop) => (
                       <div
-                        key={sop.id}
+                        key={sop.id || sop._id}
                         className="bg-white shadow-xl rounded-3xl p-6 flex flex-col justify-between h-full hover:shadow-2xl transition-all relative overflow-hidden group"
                       >
                         {/* SOP Image or Illustration */}
@@ -773,19 +787,29 @@ const ManageSOPPage = () => {
                           )}
                         </div>
                         <div>
-                          <h2 className="text-2xl font-bold text-gray-800 mb-3">{sop.title}</h2>
+                          <h2 className="text-2xl font-bold text-gray-800 mb-3 cursor-pointer hover:text-blue-600 transition-colors"
+                              onClick={() => router.push(`/sop/${sop._id || sop.id}`)}>
+                            {sop.title}
+                          </h2>
                           <p className="text-sm text-gray-600 whitespace-pre-line">{sop.description}</p>
                         </div>
                         <div className="flex justify-end mt-6 gap-4">
                           <button
-                            onClick={() => handleEdit(sop.id)}
+                            onClick={() => router.push(`/sop/${sop._id || sop.id}`)}
+                            className="text-green-600 hover:text-green-800 transition-transform hover:scale-110"
+                            title="View"
+                          >
+                            <Eye size={24} />
+                          </button>
+                          <button
+                            onClick={() => handleEdit(sop._id || sop.id)}
                             className="text-blue-600 hover:text-blue-800 transition-transform hover:scale-110"
                             title="Edit"
                           >
                             <Pencil size={24} />
                           </button>
                           <button
-                            onClick={() => handleDelete(sop.id)}
+                            onClick={() => handleDelete(sop._id || sop.id)}
                             className="text-red-600 hover:text-red-800 transition-transform hover:scale-110"
                             title="Delete"
                           >
