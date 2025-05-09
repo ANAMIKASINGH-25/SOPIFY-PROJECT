@@ -1,23 +1,10 @@
 import React from 'react';
 
-const AboutUs = () => {
+const Home = () => {
   return (
     <div className="font-sans text-gray-800 bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white px-8 py-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
-        <h1 className="text-3xl font-bold animate-fadeIn">SOPify</h1>
-        <nav className="space-x-6 text-lg">
-          {[ 'Log in', 'Sign up','Manage SOPs','About Us', 'Contact'].map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="hover:underline transition duration-300 hover:text-gray-300"
-            >
-              {item}
-            </a>
-          ))}
-        </nav>
-      </header>
+      
 
       {/* Hero Section */}
       <section
@@ -119,4 +106,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default Home;
