@@ -2,8 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const UserRouter = require('./routers/userRouter');
 const SopRouter = require('./routers/sopRouter');
-const ReviewRouter = require('./routers/reviewRouter');
-const FeedbackRouter = require('./routers/feedbackRouter');
+const FeedbackRouter =require('./routers/feedbackRouter');
+const ContactRouter =require('./routers/contactRouter');
+
 const cors = require('cors');
 
 const app = express();
@@ -18,8 +19,9 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors({origin: "*"}));
 app.use('/user', UserRouter);
 app.use('/sops', SopRouter);
-app.use('/review', ReviewRouter);
 app.use('/feedback', FeedbackRouter);
+app.use('/contact',ContactRouter);
+
 
 //endpoint or route
 app.get('/', (req, res) => {

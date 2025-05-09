@@ -35,7 +35,7 @@ const Signup = () => {
         },
 
         onSubmit: async (values) => {
-            console.log(values);
+            // console.log(values);
 
            try {
              const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/add`,values);
@@ -45,7 +45,7 @@ const Signup = () => {
              router.push('/login')
            } catch (error) {
             console.log(error);
-            toast.error('Spmething went wrong');
+            toast.error('Something went wrong');
            }
         },
 

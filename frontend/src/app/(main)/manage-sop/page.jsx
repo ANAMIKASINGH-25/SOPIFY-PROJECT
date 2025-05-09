@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Pencil, Trash2, Plus, X, Image, Upload, Camera, Filter, Clock, ExternalLink, Layers, Monitor, Eye } from "lucide-react";
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 // Initial SOPs (will be replaced with data from API)
 const initialSOPs = [

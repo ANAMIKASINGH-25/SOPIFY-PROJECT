@@ -1,73 +1,43 @@
 const express = require('express');
 const router = express.Router();
-const Model = require('../models/feedbackModel');
-require('dotenv').config();
+const Feedback = require('../models/feedbackModel');
+const verifyToken = require('../middlewaves/verify.Token');
 
-// Add a new SOP
-router.post('/add', (req, res) => {
-    console.log(req.body);
+router.post('/', verifyToken, async (req, res) => {
+  console.log('Received feedback:', req.body);
+  try {
+    const { message } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
 
-    new Model(req.body)
-        .save()
-        .then((result) => {
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+    // Get name from decoded token
+    const name = req.user.name;
+    if (!name) {
+      return res.status(400).json({ error: 'User name not found in token' });
+    }
+
+    const feedback = await Feedback.create({ 
+      name,
+      message 
+    });
+    
+    res.status(201).json(feedback);
+  } catch (error) {
+    console.error('Feedback creation error:', error);
+    res.status(500).json({ error: 'Server error', message: error.message });
+  }
 });
 
-// Get all SOPs
-router.get('/getall', (req, res) => {
-    Model.find()
-        .then((result) => {
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
-
-// Get SOP by ID
-router.get('/getbyid/:id', (req, res) => {
-    console.log(req.params.id);
-    Model.findById(req.params.id)
-        .then((result) => {
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
-
-// Update SOP by ID
-router.put('/update/:id', (req, res) => {
-    console.log('ID:', req.params.id);
-    console.log('Updated Data:', req.body);
-
-    Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .then((result) => {
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
-
-// Delete SOP by ID
-router.delete('/delete/:id', (req, res) => {
-    Model.findByIdAndDelete(req.params.id)
-        .then((result) => {
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
+router.get('/getall',(req,res)=>{
+    Feedback.find()
+    .then((result) => {
+        res.status(200).json(result);
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+})
 
 module.exports = router;
