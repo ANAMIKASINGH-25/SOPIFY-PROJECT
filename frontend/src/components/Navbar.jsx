@@ -13,7 +13,7 @@ const Navbar = () => {
             Manage SOPs
           </Link>
           <Link href="/about" className="hover:underline transition duration-300 hover:text-gray-300">
-            About Us
+            About 
           </Link>
           <Link href="/contact" className="hover:underline transition duration-300 hover:text-gray-300">
             Contact

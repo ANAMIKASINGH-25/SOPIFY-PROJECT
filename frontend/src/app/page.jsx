@@ -16,7 +16,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 text-center px-4 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Automate Your SOP Creation
+            Automate Your SOP Creation  
           </h2>
           <p className="text-xl mb-6 max-w-2xl mx-auto">
             SOPify makes it seamless to document, manage, and export your SOPs with precision and ease.
