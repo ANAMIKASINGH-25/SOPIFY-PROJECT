@@ -45,7 +45,7 @@ const ManageSOPPage = () => {
       
       if (source === 'extension' && hasData === 'true') {
         setExtensionDataLoading(true);
-        const screenshotDataString = extens.getItem('sopify_screenshots');
+        const screenshotDataString = localStorage.getItem('sopify_screenshots');
         
         if(!screenshotDataString) console.log('No screenshot data found in localStorage');
 
