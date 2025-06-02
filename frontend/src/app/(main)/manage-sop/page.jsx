@@ -196,10 +196,10 @@ const ManageSOPPage = () => {
     if (window.confirm('Are you sure you want to delete this SOP?')) {
       try {
         // Uncomment when API is ready
-        // const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/sop/delete/${id}`);
-        // if (response.data.success) {
-        //   setSOPs(sops.filter(sop => sop.id !== id));
-        // }
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/sop/delete/${id}`);
+        if (response.data.success) {
+          setSOPs(sops.filter(sop => sop.id !== id));
+        }
         
         // Using dummy implementation for now
         setSOPs(sops.filter(sop => sop.id !== id));
@@ -730,13 +730,7 @@ const ManageSOPPage = () => {
                             >
                               <Eye size={16} /> View
                             </button>
-                            <button
-                              onClick={() => handleEdit(sop._id || sop.id)}
-                              className="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-colors flex items-center gap-1 text-sm"
-                              title="Edit"
-                            >
-                              <Pencil size={16} /> Edit
-                            </button>
+
                           </div>
                           <button
                             onClick={() => handleDelete(sop._id || sop.id)}
